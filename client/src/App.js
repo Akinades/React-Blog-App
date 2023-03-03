@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar";
 import axios from "axios"; 
 import { useState ,useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import Swal from "sweetalert2";
 function App() {
   const [blogs,setBlogs] = useState([])
 
@@ -16,6 +16,33 @@ function App() {
   useEffect(()=>{
       fetchData();
   },[])
+
+  const confirmDelete=(slug)=>{
+    Swal.fire({
+      title :"คุณต้องการลบบทความหรือไม่",
+      icon :"warning",
+      showCancelButton:true
+      
+    }).then((result)=>{
+        if(result.isConfirmed){
+             
+             deleteBlog(slug);
+             
+        }
+    }) 
+  }
+  const deleteBlog=(slug)=>{
+      axios.delete(`${process.env.REACT_APP_API}/blog/${slug}`)
+      .then(response=>{
+        Swal.fire(
+          "Deleted!",
+          response.data.message,
+           "success"
+        )
+        fetchData()
+      })
+      .catch(error=>console.log(error))
+  }
   return (
     <div className="container">
       <Navbar/>
@@ -27,8 +54,10 @@ function App() {
             </Link>
             <p>{blog.content.substring(0,100) + "..."}</p>
             <p className="text-muted">ผู้เขียน : {blog.author} , เผยแพร่ : {new Date(blog.createdAt).toLocaleString()}</p>
+            <button className="btn btn-outline-success">อัพเดทบทความ</button> &nbsp;
+            <button className="btn btn-outline-danger" onClick={()=>{confirmDelete(blog.slug)}}>ลบบทความ</button>
             </div>
-
+            
         </div>
       ))}
     </div>

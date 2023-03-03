@@ -50,10 +50,20 @@ const createData = async (req,res)=>{
    }
 }
 
+//ลบบทความ
+const deleteData= async(req,res)=>{
+    try {
+        const {slug} = req.params
+        const blog = await blogModle.deleteOne({slug});
+        res.json({message:"ลบบทความเรียบร้อย"})
+    } catch (error) {
+        res.json({error : error.message})
+    }
+   
+}
 
 
 
 
 
-
-module.exports = {getData ,createData , getSlug}
+module.exports = {getData ,createData , getSlug , deleteData}

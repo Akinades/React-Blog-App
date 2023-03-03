@@ -10,6 +10,7 @@ const SigleComponent=(props)=>{
             setblog(response.data)
          })
          .catch(err=>alert(err))
+         // eslint-disable-next-line
     },[])
     return (
        <div className="container p-5">
