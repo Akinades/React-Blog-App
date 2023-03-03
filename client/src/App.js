@@ -22,7 +22,7 @@ function App() {
         <div className="row" key={blog._id} style={{borderBottom : "1px solid silver"}}>
           <div className="col pt-3 pb-2">
             <h2>{blog.title}</h2>
-            <p>{blog.content.substring(0,300) + "..."}</p>
+            <p>{blog.content.substring(0,100) + "..."}</p>
             <p className="text-muted">ผู้เขียน : {blog.author} , เผยแพร่ : {new Date(blog.createdAt).toLocaleString()}</p>
             </div>
 

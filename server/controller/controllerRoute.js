@@ -12,6 +12,20 @@ const getData = async (req,res)=>{
     }
 }
 
+//ดึงบทความ Slug
+const getSlug = async (req,res)=>{
+    try {
+      const {slug} = req.params
+      const blog = await blogModle.findOne({slug});
+      res.json(blog); 
+        
+    } catch (error) {
+        res.json({error:error.message})
+    }
+}
+
+
+//สร้างบทความ
 const createData = async (req,res)=>{
    const { title , content , author} = req.body
    const slug = slugify(title)
@@ -40,4 +54,4 @@ const createData = async (req,res)=>{
 
 
 
-module.exports = {getData ,createData}
+module.exports = {getData ,createData , getSlug}
