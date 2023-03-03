@@ -1,6 +1,6 @@
 const blogModle = require('../models/model')
 const slugify = require('slugify')
-
+const {v4: uuidv4} = require('uuid')
 
 //ดึงบทความ
 const getData = async (req,res)=>{    
@@ -28,9 +28,11 @@ const getSlug = async (req,res)=>{
 //สร้างบทความ
 const createData = async (req,res)=>{
    const { title , content , author} = req.body
-   const slug = slugify(title)
+   let slug = slugify(title)
    
    //ตรวจสอบความถูกต้องของข้อมูล 
+   if(!slug)slug=uuidv4()
+
    switch(true){
     case !title :
         return res.status(400).json({error:"กรุณาป้อนชื่อบทความ"})
