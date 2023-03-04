@@ -62,8 +62,18 @@ const deleteData= async(req,res)=>{
    
 }
 
+//อัพเดตบทความ
+const updateData= async(req,res)=>{
+    try {
+        const {slug} = req.params
+        const {title , content, author} = req.body
+        const blog = await blogModle.findOneAndUpdate({slug} , {title , content, author} , {new:true});
+        res.json(blog)
+    } catch (error) {
+        res.json({error : error.message})
+    }
+}
 
 
 
-
-module.exports = {getData ,createData , getSlug , deleteData}
+module.exports = {getData ,createData , getSlug , deleteData , updateData}

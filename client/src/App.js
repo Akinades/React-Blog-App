@@ -44,7 +44,7 @@ function App() {
       .catch(error=>console.log(error))
   }
   return (
-    <div className="container">
+    <div className="container p-5">
       <Navbar/>
       {blogs && blogs.map((blog)=>(
         <div className="row" key={blog._id} style={{borderBottom : "1px solid silver"}}>
@@ -54,7 +54,7 @@ function App() {
             </Link>
             <p>{blog.content.substring(0,100) + "..."}</p>
             <p className="text-muted">ผู้เขียน : {blog.author} , เผยแพร่ : {new Date(blog.createdAt).toLocaleString()}</p>
-            <button className="btn btn-outline-success">อัพเดทบทความ</button> &nbsp;
+            <Link className="btn btn-outline-success" to={`/blog/edit/${blog.slug}`}>แก้ไขบทความ</Link> &nbsp;
             <button className="btn btn-outline-danger" onClick={()=>{confirmDelete(blog.slug)}}>ลบบทความ</button>
             </div>
             
