@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState ,useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import parse from 'html-react-parser';
+
 function App() {
   const [blogs,setBlogs] = useState([])
 
@@ -52,7 +54,7 @@ function App() {
             <Link to={`blog/${blog.slug}`}>
             <h2>{blog.title}</h2>
             </Link>
-            <p>{blog.content.substring(0,100) + "..."}</p>
+            <p>{parse(blog.content.substring(0,100) + "...")}</p>
             <p className="text-muted">ผู้เขียน : {blog.author} , เผยแพร่ : {new Date(blog.createdAt).toLocaleString()}</p>
             <Link className="btn btn-outline-success" to={`/blog/edit/${blog.slug}`}>แก้ไขบทความ</Link> &nbsp;
             <button className="btn btn-outline-danger" onClick={()=>{confirmDelete(blog.slug)}}>ลบบทความ</button>

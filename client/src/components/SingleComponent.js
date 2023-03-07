@@ -1,7 +1,12 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import Navbar from "./Navbar";
+import HtmlToReact from 'html-to-react';
+
 const SigleComponent=(props)=>{
+
+   const parser = new HtmlToReact.Parser();
+   
     const [blog , setblog] = useState('')
     
     useEffect(()=>{
@@ -16,7 +21,8 @@ const SigleComponent=(props)=>{
        <div className="container p-5">
         <Navbar/>
          <h1>{blog.title}</h1>
-         <p>{blog.content}</p>
+         <p>{parser.parse(blog.content)}</p>
+         <p className="text-muted">ผู้เขียน : {blog.author} , เผยแพร่ : {new Date(blog.createdAt).toLocaleString()}</p>
        </div>
     )
 }

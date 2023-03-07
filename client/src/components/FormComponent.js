@@ -2,18 +2,28 @@ import React, { useState } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 import Swal from "sweetalert2"
+import ReacQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+
 const FormComponent=()=>{
 
   const [blog,setBlogs] = useState({
     title:"",
-    content:"",
     author:""
   })
-  const { title , content ,author} = blog
+
+  const [content , setContent] = useState('')
+
+  const { title ,author} = blog
 
   //กำหนดค่าให้ blog
   const inputValue=name=>event=>{
     setBlogs({...blog,[name]:event.target.value})
+  }
+
+  const submitContent=(event)=>{
+    setContent(event)
+
   }
 
   //ส่งข้อมูล API
@@ -28,13 +38,9 @@ const FormComponent=()=>{
         'success'
 
       )
-      setBlogs(
-        {
-          title:'',
-          content:'',
-          author:''
-        }
+      setBlogs({title:'',author:''}
       )
+      setContent({content:''})
     
     })
     .catch(err=>{
@@ -57,7 +63,14 @@ return(
           </div>
           <div className="form-group">
             <label>รายละเอียด</label>
-           <textarea className="form-control" value={content} onChange={inputValue("content")}></textarea>
+          <ReacQuill 
+          value={content}
+          onChange={submitContent}
+          theme='snow'
+          className="pb-5 mb-3"
+          placeholder="เขียนรายละเอียดบทความของคุณ"
+          style={{border : '1px solid'}}
+          />
           </div>
           <div className="form-group">
             <label>ผู้แต่ง</label>

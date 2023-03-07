@@ -2,21 +2,32 @@ import React, { useState , useEffect } from "react";
 import Navbar from "./Navbar";
 import axios from "axios";
 import Swal from "sweetalert2"
+import ReacQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+
 const EditComponent=(props)=>{
   
   const [blog,setBlogs] = useState({
     title:"",
-    content:"",
     author:"",
     slug:""
   })
-  const { title , content ,author,slug} = blog
+
+  const [content , setContent] = useState('')
+
+  const { title ,author,slug} = blog
   
+  const submitContent=(event)=>{
+    setContent(event)
+
+  }
+
   useEffect(()=>{
     axios.get(`${process.env.REACT_APP_API}/blog/${props.match.params.slug}`)
     .then(response=>{
        const {title,content, author ,slug} = response.data
-       setBlogs({...blog,title,content,author , slug})
+       setBlogs({...blog,title,author , slug})
+       setContent(content)
     })
     .catch(err=>alert(err))
     // eslint-disable-next-line
@@ -60,14 +71,21 @@ return(
           </div>
           <div className="form-group">
             <label>รายละเอียด</label>
-           <textarea className="form-control" value={content} onChange={inputValue("content")}></textarea>
+           <ReacQuill 
+          value={content}
+          onChange={submitContent}
+          theme='snow'
+          className="pb-5 mb-3"
+          placeholder="เขียนรายละเอียดบทความของคุณ"
+          style={{border : '1px solid'}}
+          />
           </div>
           <div className="form-group">
             <label>ผู้แต่ง</label>
             <input type="text" className="form-control" value={author} onChange={inputValue("author")}/>
           </div>
           <br/>
-          <input type="submit" value="บันทึก" className="btn btn-primary"/>
+          <input type="submit" value="อัพเดต" className="btn btn-primary"/>
           
         </form>
       </div>
